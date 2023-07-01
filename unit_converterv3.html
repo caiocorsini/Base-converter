@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Unit Converter</title>
+	<link rel="stylesheet" type="text/css" href="unit_converter.css">
+</head>
+
+
+<header> Unit Converter</header>
+
+<body>
+
+	
+<div class="user_container">
+	<label class="from_label"><b>From: </b></label> <br>
+	<input type="text" name="user_string" id="user_string" placeholder="Write number to convert" autofocus>
+
+	<select id="unit_selection">
+		<option style="text-align: center;">-- Select Original unit --</option>
+		<option value="binary">Binary</option>
+		<option value="decimal">Decimal</option>
+		<option value="octal">Octal</option>
+		<option value="hexadecimal">Hexadecimal</option>
+	</select>
+
+	<button id="convert_button" onclick="initialize_conversion()">Convert</button>
+	
+</div>
+
+<br>
+
+<div class="output_container">
+	<h1 id="test">Binary</h1>
+	<div id="binary_result" class="result_block"> </div>
+	<h2 class="steps_word">Steps</h2>
+	<div id="binary_steps" class="steps_block"> 
+		<p id="binary_steps_step1"></p>
+		<p id="binary_steps_step2"></p>
+		<p id="binary_steps_step3"></p>
+		<p id="binary_steps_step4"></p>
+		<p id="binary_steps_step5"></p>
+	</div>
+</div>
+
+
+<div class="output_container">
+	<h1 id="test">Octal</h1>
+	<div id="octal_result" class="result_block"> </div>
+	<h2 class="steps_word">Steps</h2>
+	<div id="octal_steps" class="steps_block"> 
+		<p id="octal_steps_step1"></p>
+		<p id="octal_steps_step2"></p>
+		<p id="octal_steps_step3"></p>
+		<p id="octal_steps_step4"></p>
+		<p id="octal_steps_step5"></p>
+	</div>
+</div>
+
+<div class="output_container">
+	<h1 id="test">Decimal</h1>
+	<div id="decimal_result" class="result_block"> </div>
+	<h2 class="steps_word">Steps</h2>
+	<div id="decimal_steps" class="steps_block"> 
+		<p id="decimal_steps_step1"></p>
+		<p id="decimal_steps_step2"></p>
+		<p id="decimal_steps_step3"></p>
+		<p id="decimal_steps_step4"></p>
+		<p id="decimal_steps_step5"></p>
+	</div>
+</div>
+
+<div class="output_container">
+	<h1 id="test">Hexadecimal</h1>
+	<div id="hexadecimal_result" class="result_block"> </div>
+	<h2 class="steps_word">Steps</h2>
+	<div id="hexadecimal_steps" class="steps_block"> 
+		<p id="hexadecimal_steps_step1"></p>
+		<p id="hexadecimal_steps_step2"></p>
+		<p id="hexadecimal_steps_step3"></p>
+		<p id="hexadecimal_steps_step4"></p>
+		<p id="hexadecimal_steps_step5"></p>
+	</div>
+</div>
+
+
+
+
+
+
+	<script type="text/javascript">
+
+		//First, it is going to check which conversions need to be made
+		function initialize_conversion(){
+			steps_cleaning();
+			var original_value = document.getElementById("user_string").value;
+			var original_unit = document.getElementById("unit_selection").value;
+
+			if (original_unit == "binary"){
+				//Binary to decimal
+				other_unit_to_decimal(original_value, "decimal_result", 2, "decimal_steps_step1", "decimal_steps_step2", "decimal_steps_step3", "decimal_steps_step4");
+
+				//Binary to octal
+				decimal = other_unit_to_decimal(original_value, "octal_result", 2, "octal_steps_step1", "octal_steps_step2", "octal_steps_step3", "octal_steps_step4");
+				decimal_to_other_unit(decimal, 8, "octal_result", "octal_steps_step5");
+
+				//Binary to hex
+				decimal = other_unit_to_decimal(original_value, "hexadecimal_result", 2, "hexadecimal_steps_step1", "hexadecimal_steps_step2", "hexadecimal_steps_step3", "hexadecimal_steps_step4");
+				decimal_to_other_unit(decimal, 16, "hexadecimal_result", "hexadecimal_steps_step5");
+
+				//Binary to binary message
+				document.getElementById("binary_result").innerHTML = "(" + original_value.toString() + ")<sub>2</sub>";
+				document.getElementById("binary_steps_step1").innerHTML = "No need for conversion.";
+				
+			}
+
+			if (original_unit == "decimal"){
+				//Decimal to binary
+				decimal_to_other_unit(original_value, 2, "binary_result", "binary_steps_step1");
+
+				//Decimal to octal
+				decimal_to_other_unit(original_value, 8, "octal_result", "octal_steps_step1");
+
+				//Decimal to decimal message
+				document.getElementById("decimal_result").innerHTML = "(" + original_value.toString() + ")<sub>10</sub>";
+				document.getElementById("decimal_steps_step1").innerHTML = "No need for conversion.";
+
+				//Decimal to hex
+				decimal_to_other_unit(original_value, 16, "hexadecimal_result", "hexadecimal_steps_step1");
+			}
+
+			if (original_unit == "octal"){
+				//Octal to binary
+				decimal = other_unit_to_decimal(original_value, "binary_result", 8, "binary_steps_step1", "binary_steps_step2", "binary_steps_step3", "binary_steps_step4");
+				decimal_to_other_unit(decimal, 2, "binary_result", "binary_steps_step5");
+
+				//Octal to octal message
+				document.getElementById("octal_result").innerHTML = "(" + original_value.toString() + ")<sub>8</sub>";
+				document.getElementById("octal_steps_step1").innerHTML = "No need for conversion.";
+
+				//Octal to decimal
+				other_unit_to_decimal(original_value, "decimal_result", 8, "decimal_steps_step1", "decimal_steps_step2", "decimal_steps_step3", "decimal_steps_step4");
+
+				//Octal to hex
+				decimal = other_unit_to_decimal(original_value, "hexadecimal_result", 8, "hexadecimal_steps_step1", "hexadecimal_steps_step2", "hexadecimal_steps_step3", "hexadecimal_steps_step4");
+				decimal_to_other_unit(decimal, 16, "hexadecimal_result", "hexadecimal_steps_step5");
+			}
+
+			if (original_unit == "hexadecimal"){
+				//Hex to binary
+				decimal = other_unit_to_decimal(original_value, "binary_result", 16, "binary_steps_step1", "binary_steps_step2", "binary_steps_step3", "binary_steps_step4");
+				decimal_to_other_unit(decimal, 2, "binary_result", "binary_steps_step5");
+
+				//Hex to octal
+				decimal = other_unit_to_decimal(original_value, "octal_result", 16, "octal_steps_step1", "octal_steps_step2", "octal_steps_step3", "octal_steps_step4");
+				decimal_to_other_unit(decimal, 8, "octal_result", "octal_steps_step5");
+
+
+				//Hex to decimal
+				other_unit_to_decimal(original_value, "decimal_result", 16, "decimal_steps_step1", "decimal_steps_step2", "decimal_steps_step3", "decimal_steps_step4");
+
+				//Hex to hex message
+				document.getElementById("hexadecimal_result").innerHTML = "(" + original_value.toString() + ")<sub>16</sub>";
+				document.getElementById("hexadecimal_steps_step1").innerHTML = "No need for conversion.";
+
+			}
+			
+		}
+
+
+
+		function other_unit_to_decimal(original_string, result_loc, original_unit, calc1_loc, calc2_loc, calc3_loc, calc4_loc){
+			var final_decimal = 0;
+			var power = original_string.length - 1;
+			var calculation1 = "";
+			var calculation2 = "";
+			var calculation3 = "";
+
+			for (var i = 0; i < original_string.length; i++){
+			current_digit = original_string.charAt(i);
+
+			if (original_unit == 16){
+				if (current_digit == "a" || current_digit == "A"){
+					current_digit = "10";
+				} else if (current_digit == "b" || current_digit == "B"){
+					current_digit = "11";
+				} else if (current_digit == "c" || current_digit == "C"){
+					current_digit = "12";
+				} else if (current_digit == "d" || current_digit == "D"){
+					current_digit = "13";
+				} else if (current_digit == "e" || current_digit == "E"){
+					current_digit = "14";
+				} else if (current_digit == "f" || current_digit == "F"){
+					current_digit = "15";
+				}
+			}
+
+  			final_decimal += parseInt(current_digit) * (original_unit**power);
+
+  			if (i == 0){
+    			calculation1 = current_digit + " x " + original_unit.toString() + "<sup>" + (power).toString() +  "</sup>";
+    			calculation2 = current_digit + " x " + (original_unit**power).toString();
+    			calculation3 = (parseInt(current_digit) * (original_unit**power)).toString();
+  			} else {
+    			calculation1 += " + " + current_digit + " x " + original_unit.toString() + "<sup>" + (power).toString()+  "</sup>";
+    			calculation2 += " + " + current_digit + " x " +  (original_unit**power).toString();
+    			calculation3 += " + " + (parseInt(current_digit) * (original_unit**power)).toString();
+  			}
+
+  power -= 1;
+			}
+			
+			document.getElementById(result_loc).innerHTML = "(" + final_decimal.toString() + ")<sub>10</sub>"; 
+			document.getElementById(calc1_loc).innerHTML = calculation1;
+			document.getElementById(calc2_loc).innerHTML = calculation2;
+			document.getElementById(calc3_loc).innerHTML = calculation3;
+			document.getElementById(calc4_loc).innerHTML = final_decimal;
+
+			return final_decimal;
+		}
+
+
+
+
+		function decimal_to_other_unit(decimal_string, new_unit, result_loc, calc_loc){
+			//only works for conversion from decimal to octal or binary
+			var dividend = parseInt(decimal_string);
+			var quotient = 1;
+			var remainder = 1;
+			var final_result = "";
+			var calculation = "";
+			var remainder_sum = "";
+			//new_unit is used as the divisor
+			while(quotient != 0){
+				remainder = dividend % new_unit;
+				quotient = Math.floor(dividend/new_unit);
+
+
+				if (dividend == parseInt(decimal_string)){
+					remainder_sum += remainder;
+				} else {
+					remainder_sum = remainder + " + " + remainder_sum;
+				}
+
+
+
+
+				calculation += dividend.toString() + " / " + new_unit.toString() + " = quotient: " + quotient.toString() + " remainder: " + remainder.toString() + "<br><br>";
+
+
+				dividend = quotient;
+
+				if (new_unit == 16){
+					if (remainder == 10){
+						remainder = "a";
+					} else if (remainder == 11){
+						remainder = "b";
+					} else if (remainder == 12){
+						remainder = "c";
+					} else if (remainder == 13){
+						remainder = "d";
+					} else if (remainder == 14){
+						remainder = "e";
+					} else if (remainder == 15){
+						remainder = "f";
+					}
+				}
+
+				final_result = remainder.toString() + final_result;
+			}
+
+			remainder_sum = "digit concatenation: " + remainder_sum;
+			calculation += remainder_sum;
+			calculation += "<br><br>" + final_result;
+
+			document.getElementById(result_loc).innerHTML = "(" + final_result.toString() + ")<sub>" + new_unit.toString() + "</sub>";
+			document.getElementById(calc_loc).innerHTML = calculation; 
+			
+		}
+
+
+		function steps_cleaning(){
+			//To clean the steps from divs from previous conversions.
+			document.getElementById("binary_steps_step1").innerHTML = "";
+			document.getElementById("binary_steps_step2").innerHTML = "";
+			document.getElementById("binary_steps_step3").innerHTML = "";
+			document.getElementById("binary_steps_step4").innerHTML = "";
+			document.getElementById("binary_steps_step5").innerHTML = "";
+
+			document.getElementById("decimal_steps_step1").innerHTML = "";
+			document.getElementById("decimal_steps_step2").innerHTML = "";
+			document.getElementById("decimal_steps_step3").innerHTML = "";
+			document.getElementById("decimal_steps_step4").innerHTML = "";
+			document.getElementById("decimal_steps_step5").innerHTML = "";
+
+			document.getElementById("octal_steps_step1").innerHTML = "";
+			document.getElementById("octal_steps_step2").innerHTML = "";
+			document.getElementById("octal_steps_step3").innerHTML = "";
+			document.getElementById("octal_steps_step4").innerHTML = "";
+			document.getElementById("octal_steps_step5").innerHTML = "";
+
+			document.getElementById("hexadecimal_steps_step1").innerHTML = "";
+			document.getElementById("hexadecimal_steps_step2").innerHTML = "";
+			document.getElementById("hexadecimal_steps_step3").innerHTML = "";
+			document.getElementById("hexadecimal_steps_step4").innerHTML = "";
+			document.getElementById("hexadecimal_steps_step5").innerHTML = "";
+		}
+
+
+
+
+
+
+	</script>
+
+</body>
+</html>
