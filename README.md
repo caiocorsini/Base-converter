@@ -1,12 +1,12 @@
-# Unit-converter
+# Base-converter
 A basic unit converter made with Javascript and UI made with HTML and CSS
 
 This program can be used to convert numbers into 4 different unit bases:
 
-- Binary: 0 and 1
-- Octal: 0 to 7
-- Decimal: 0 to 9
-- Hexadecimal: 0 to 15 (a = 10, b = 11, c = 12, d = 13, e = 14, f = 15)
+- # Binary: 0 and 1
+- # Octal: 0 to 7
+- # Decimal: 0 to 9
+- # Hexadecimal: 0 to 15 (a = 10, b = 11, c = 12, d = 13, e = 14, f = 15)
 
 A quick rundown o the program:
 
