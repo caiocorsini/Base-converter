@@ -18,7 +18,7 @@
 	<input type="text" name="user_string" id="user_string" placeholder="Write number to convert" autofocus>
 
 	<select id="unit_selection">
-		<option value="-- Select Original unit --" style="text-align: center;">-- Select Original unit --</option>
+		<option value="-- Select Original base --" style="text-align: center;">-- Select Original base --</option>
 		<option value="binary">Binary</option>
 		<option value="octal">Octal</option>
 		<option value="decimal">Decimal</option>
@@ -307,7 +307,7 @@
 
 			var validizer = 1
 
-			if (original_unit == "-- Select Original unit --"){
+			if (original_unit == "-- Select Original base --"){
 				document.getElementById("warning_message").innerHTML = "ERROR: Please, choose a unit";
 				document.getElementById("warning_container").style.display = "inline-block";
 			}
