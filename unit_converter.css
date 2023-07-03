@@ -36,6 +36,32 @@ body{
 	border-style: solid;
 	border-color: black;
 	border-width: 2px;
+
+	vertical-align: top;
+}
+
+#warning_container{
+	width: 170px;
+	height: 100px;
+	background-color: #f2351f;
+	border-color: darkred;
+	border-style: solid;
+	border-width: 2px;
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 20px;
+	margin-right: 10px;
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	display: none;
+}
+
+#warning_messgae{
+	display: inline-block;
+	margin: 10px 3px 0px 3px;
+	padding: 10px 3px 0px 3px;
+	display: none;
 }
 
 #user_string{
@@ -154,4 +180,53 @@ h1{
 	padding-bottom: -1px;
 	text-align: left;
 	overflow: auto;
+}
+
+@media (max-height: 900px){
+	.output_container{
+		height: 670px;
+	}
+	.steps_block{
+		height: 500px;
+	}
+
+@media (max-height: 800px){
+	.output_container{
+		height: 570px;
+	}
+	.steps_block{
+		height: 400px;
+	}
+
+@media (max-height: 700px){
+	.output_container{
+		height: 470px;
+	}
+	.steps_block{
+		height: 300px;
+	}
+
+@media (max-height: 600px){
+	.output_container{
+		height: 370px;
+	}
+	.steps_block{
+		height: 200px;
+	}
+
+@media (max-height: 500px){
+	.output_container{
+		height: 270px;
+	}
+	.steps_block{
+		height: 100px;
+	}
+
+@media (max-height: 400px){
+	.output_container{
+		height: 170px;
+	}
+	.steps_block{
+		height: 10px;
+	}
 }

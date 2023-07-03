@@ -6,26 +6,26 @@
 	<link rel="stylesheet" type="text/css" href="unit_converter.css">
 </head>
 
-
 <header> Unit Converter</header>
 
 <body>
 
-	
+<div id="warning_container">
+	<p id="warning_message"></p>
+</div>
 <div class="user_container">
 	<label class="from_label"><b>From: </b></label> <br>
 	<input type="text" name="user_string" id="user_string" placeholder="Write number to convert" autofocus>
 
 	<select id="unit_selection">
-		<option style="text-align: center;">-- Select Original unit --</option>
+		<option value="-- Select Original unit --" style="text-align: center;">-- Select Original unit --</option>
 		<option value="binary">Binary</option>
-		<option value="decimal">Decimal</option>
 		<option value="octal">Octal</option>
+		<option value="decimal">Decimal</option>
 		<option value="hexadecimal">Hexadecimal</option>
 	</select>
 
 	<button id="convert_button" onclick="initialize_conversion()">Convert</button>
-	
 </div>
 
 <br>
@@ -42,7 +42,6 @@
 		<p id="binary_steps_step5"></p>
 	</div>
 </div>
-
 
 <div class="output_container">
 	<h1 id="test">Octal</h1>
@@ -83,19 +82,26 @@
 	</div>
 </div>
 
-
-
-
-
-
 	<script type="text/javascript">
 
 		//First, it is going to check which conversions need to be made
 		function initialize_conversion(){
 			steps_cleaning();
+			document.getElementById("warning_container").style.display = "none";
+
 			var original_value = document.getElementById("user_string").value;
 			var original_unit = document.getElementById("unit_selection").value;
+			var verifier = 1;
+			verifier = verifier_and_warning(original_value, original_unit);
 
+
+			if (verifier == 1){
+				conversion(original_value, original_unit);
+			}
+
+		}
+
+		function conversion(original_value, original_unit){
 			if (original_unit == "binary"){
 				//Binary to decimal
 				other_unit_to_decimal(original_value, "decimal_result", 2, "decimal_steps_step1", "decimal_steps_step2", "decimal_steps_step3", "decimal_steps_step4");
@@ -167,8 +173,6 @@
 			
 		}
 
-
-
 		function other_unit_to_decimal(original_string, result_loc, original_unit, calc1_loc, calc2_loc, calc3_loc, calc4_loc){
 			var final_decimal = 0;
 			var power = original_string.length - 1;
@@ -219,9 +223,6 @@
 			return final_decimal;
 		}
 
-
-
-
 		function decimal_to_other_unit(decimal_string, new_unit, result_loc, calc_loc){
 			//only works for conversion from decimal to octal or binary
 			var dividend = parseInt(decimal_string);
@@ -242,11 +243,7 @@
 					remainder_sum = remainder + " + " + remainder_sum;
 				}
 
-
-
-
 				calculation += dividend.toString() + " / " + new_unit.toString() + " = quotient: " + quotient.toString() + " remainder: " + remainder.toString() + "<br><br>";
-
 
 				dividend = quotient;
 
@@ -265,40 +262,40 @@
 						remainder = "f";
 					}
 				}
-
 				final_result = remainder.toString() + final_result;
 			}
-
 			remainder_sum = "digit concatenation: " + remainder_sum;
 			calculation += remainder_sum;
 			calculation += "<br><br>" + final_result;
 
 			document.getElementById(result_loc).innerHTML = "(" + final_result.toString() + ")<sub>" + new_unit.toString() + "</sub>";
 			document.getElementById(calc_loc).innerHTML = calculation; 
-			
 		}
-
 
 		function steps_cleaning(){
 			//To clean the steps from divs from previous conversions.
+			document.getElementById("binary_result").innerHTML = "";
 			document.getElementById("binary_steps_step1").innerHTML = "";
 			document.getElementById("binary_steps_step2").innerHTML = "";
 			document.getElementById("binary_steps_step3").innerHTML = "";
 			document.getElementById("binary_steps_step4").innerHTML = "";
 			document.getElementById("binary_steps_step5").innerHTML = "";
 
+			document.getElementById("decimal_result").innerHTML = "";
 			document.getElementById("decimal_steps_step1").innerHTML = "";
 			document.getElementById("decimal_steps_step2").innerHTML = "";
 			document.getElementById("decimal_steps_step3").innerHTML = "";
 			document.getElementById("decimal_steps_step4").innerHTML = "";
 			document.getElementById("decimal_steps_step5").innerHTML = "";
 
+			document.getElementById("octal_result").innerHTML = "";
 			document.getElementById("octal_steps_step1").innerHTML = "";
 			document.getElementById("octal_steps_step2").innerHTML = "";
 			document.getElementById("octal_steps_step3").innerHTML = "";
 			document.getElementById("octal_steps_step4").innerHTML = "";
 			document.getElementById("octal_steps_step5").innerHTML = "";
 
+			document.getElementById("hexadecimal_result").innerHTML = "";
 			document.getElementById("hexadecimal_steps_step1").innerHTML = "";
 			document.getElementById("hexadecimal_steps_step2").innerHTML = "";
 			document.getElementById("hexadecimal_steps_step3").innerHTML = "";
@@ -306,10 +303,77 @@
 			document.getElementById("hexadecimal_steps_step5").innerHTML = "";
 		}
 
+		function verifier_and_warning(original_value, original_unit){
+
+			var validizer = 1
+
+			if (original_unit == "-- Select Original unit --"){
+				document.getElementById("warning_message").innerHTML = "ERROR: Please, choose a unit";
+				document.getElementById("warning_container").style.display = "inline-block";
+			}
+
+			if (original_unit == "binary"){
+				for (var i = 0; i<original_value.length; i++){
+					if (original_value.charAt(i) != "1" && original_value.charAt(i) != "0"){
+						validizer = 0;
+					}
+				}
+				if (validizer == 0){
+					document.getElementById("warning_message").innerHTML = "ERROR: Only 1s and 0s for Binary are valid";
+					document.getElementById("warning_container").style.display = "inline-block";
+					return 0;
+				} else {
+					return 1;
+				}
+			}
+
+			if (original_unit == "octal"){
+				for (var i = 0; i<original_value.length; i++){
+					if (original_value.charAt(i) != "0" && original_value.charAt(i) != "1" && original_value.charAt(i) != "2" && original_value.charAt(i) != "3" && original_value.charAt(i) != "4" && original_value.charAt(i) != "5" && original_value.charAt(i) != "6" && original_value.charAt(i) != "7"){
+						validizer = 0;
+					}
+				}
+				if (validizer == 0){
+					document.getElementById("warning_message").innerHTML = "ERROR: Only values between 0 and 7 for Octal are valid";
+					document.getElementById("warning_container").style.display = "inline-block";
+					return 0;
+				} else {
+					return 1;
+				}
+			}
+
+			if (original_unit == "decimal"){
+				for (var i = 0; i<original_value.length; i++){
+					if (original_value.charAt(i) != "0" && original_value.charAt(i) != "1" && original_value.charAt(i) != "2" && original_value.charAt(i) != "3" && original_value.charAt(i) != "4" && original_value.charAt(i) != "5" && original_value.charAt(i) != "6" && original_value.charAt(i) != "7" && original_value.charAt(i) != "8" && original_value.charAt(i) != "9"){
+						validizer = 0;
+					}
+				}
+				if (validizer == 0){
+					document.getElementById("warning_message").innerHTML = "ERROR: Only values between 0 and 9 for Decimal are valid";
+					document.getElementById("warning_container").style.display = "inline-block";
+					return 0;
+				} else {
+					return 1;
+				}
+			}
+
+			if (original_unit == "hexadecimal"){
+				for (var i = 0; i<original_value.length; i++){
+					if (original_value.charAt(i) != "0" && original_value.charAt(i) != "1" && original_value.charAt(i) != "2" && original_value.charAt(i) != "3" && original_value.charAt(i) != "4" && original_value.charAt(i) != "5" && original_value.charAt(i) != "6" && original_value.charAt(i) != "7" && original_value.charAt(i) != "8" && original_value.charAt(i) != "9" && original_value.charAt(i) != "a" && original_value.charAt(i) != "b" && original_value.charAt(i) != "c" && original_value.charAt(i) != "d" && original_value.charAt(i) != "e" && original_value.charAt(i) != "f" && original_value.charAt(i) != "A" && original_value.charAt(i) != "B" && original_value.charAt(i) != "C" && original_value.charAt(i) != "D" && original_value.charAt(i) != "E" && original_value.charAt(i) != "F"){
+						validizer = 0;
+					}
+				}
+				if (validizer == 0){
+					document.getElementById("warning_message").innerHTML = "ERROR: Only values between 0 and 9 and between 'a' and 'f' for Hexadecimal are valid";
+					document.getElementById("warning_container").style.display = "inline-block";
+					return 0;
+				} else {
+					return 1;
+				}
+			}
 
 
-
-
+		}
 
 	</script>
 
