@@ -1,7 +1,7 @@
 # Base-converter
-A basic unit converter made with Javascript and UI made with HTML and CSS
+A basic numbering system base converter made with Javascript and UI made with HTML and CSS
 
-This program can be used to convert numbers into 4 different unit bases:
+This program can be used to convert numbers into 4 different bases:
 
 - Binary: 0 and 1
 - Octal: 0 to 7
